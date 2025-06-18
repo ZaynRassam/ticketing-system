@@ -3,14 +3,24 @@ services:
     build: ./inventoryservice
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
   booking-service:
     build: ./bookingservice
     ports:
       - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
   order-service:
     build: ./orderservice
     ports:
       - "8082:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
 
   mysql:
     image: mysql:8.3.0
