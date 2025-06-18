@@ -3,16 +3,17 @@
 
 This repo contains several microservices to allow a user to view and purchase tickets to a fictitious event happening at a local venue. 
 
+### Spinning Up 
 All microservices have been containerised and can be deployed using this command whilst in the root directory of the project:
 
-```
-docker compose -v up -d --build
-```
+```docker compose -v up -d --build```
 
+### Frontend
 The frontend has been built in React (+Vite) and can be accessed with this link:
 
 ```http://localhost:5173```
 
+### Backend
 The services use Kafka as a way of booking the events. When a user "purchases" tickets, the ```Frontend``` services makes 
 a ```GET``` request to the ```Inventory``` service to check if there are valid number of tickets available to purchase, 
 it then sends a ```POST``` request to the ```Booking``` service with the ```userID```, ```eventId``` and ```ticketNumber```.
@@ -21,6 +22,12 @@ the booking is sent to a Kafka topic.
 
 The ```Order``` service is in charge of collecting the Kafka messages from the topic and processing the bookings. 
 It then calls the ```Inventory``` service to update the total number of tickets available to be purchased. 
+
+### Spinning Down
+
+To spin down the containers, use the command:
+
+```docker compose -v up -d --build```
 
 ### TODO:
 
