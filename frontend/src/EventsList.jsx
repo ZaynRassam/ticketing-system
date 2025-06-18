@@ -6,7 +6,7 @@ function EventsList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://inventory-service:8080/api/v1/inventory/events")
+    fetch("/inventory-api/v1/inventory/events")
       .then((res) => res.json())
       .then((data) => setEvents(data))
       .catch((err) => console.error("Error fetching events:", err));

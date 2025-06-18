@@ -9,7 +9,7 @@ function EventDetails() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    fetch(`http://inventory-service:8080/api/v1/inventory/event/${eventId}`)
+    fetch(`/inventory-api/v1/inventory/event/${eventId}`)
       .then((res) => res.json())
       .then((data) => {
         setEvent(data);
@@ -28,9 +28,11 @@ function EventDetails() {
       setStatus("Checking availability...");
   
       // ✅ 1) Always get latest event before submitting
-      const freshRes = await fetch(`http://inventory-service:8080/api/v1/inventory/event/${eventId}`);
+      const freshRes = await fetch(`/inventory-api/v1/inventory/event/${eventId}`);
       const freshEvent = await freshRes.json();
-  
+      console.log(freshRes)
+      console.log(freshEvent)
+
       if (numTickets > freshEvent.capacity) {
         setStatus(`Only ${freshEvent.capacity} tickets available.`);
         return;
@@ -40,18 +42,18 @@ function EventDetails() {
   
       const token = localStorage.getItem("token");
   
-      const response = await fetch(`http://booking-service:8081/api/v1/booking`, {
+      const response = await fetch(`/booking-api/v1/booking`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
           userId: 1,
-          eventId: freshEvent.eventId,
+          eventId: eventId,
           ticketCount: numTickets,
         }),
       });
-  
+      console.log(response)
       if (response.ok) {
         setStatus("Booking successful! Refreshing...");
   
