@@ -9,6 +9,7 @@ import com.example.bookingservice.response.BookingResponse;
 import com.example.bookingservice.response.InventoryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ import java.math.BigDecimal;
 @Service
 @Slf4j
 public class BookingService {
+
+    @Value("${spring.kafka.template.default-topic}")
+    private String kafkaTopicName;
 
     private CustomerRepository customerRepository;
     private InventoryServiceClient inventoryServiceClient;
@@ -49,7 +53,7 @@ public class BookingService {
 
 
 //        send booking to Order Service on a Kafka topic
-        kafkaTemplate.send("booking", bookingEvent);
+        kafkaTemplate.send(kafkaTopicName, bookingEvent);
         log.info("Booking sent to Kafka: {}", bookingEvent);
         return BookingResponse.builder()
                 .userId(bookingEvent.getUserId())
